@@ -3,6 +3,7 @@ import datetime
 import speech_recognition as sr #pip install speechRecognition
 import wikipedia #pip install wikipedia
 import smtplib
+import webbrowser as wb
 
 engine = pyttsx3.init()
 
@@ -15,9 +16,8 @@ def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
-
 def time_():
-    Time = datetime.datetime.now().strftime("%I:%M:%S")
+    Time = datetime.datetime.now().strftime("%H:%M:%S") #for 24 hour clock
     speak("The current time is")
     speak(Time)
 
@@ -26,6 +26,7 @@ def date_():
     month = datetime.datetime.now().month
     date = datetime.datetime.now().day
     speak("The current date is")
+    
     speak(date)
     speak(month)
     speak(year)
@@ -47,27 +48,24 @@ def wishme():
         speak("Good Evening Sir!")
     else:
         speak("Good Night Sir!")
-        
-    
-speak("Jarvis at your service. Please tell me how can i help you today?")
+    speak("Jarvis at your service. Please tell me how can i help you?")
 
 def TakeCommand():
-    r=sr.Recognizer()
+    r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening.....")
+        print("Listening...")
         r.pause_threshold = 1
         audio = r.listen(source)
-        
-        try:
-            print("Recognizing.....")
-            query = r.recognize_google(audio, language='en-US')
-            print(query)
+    try:
+        print("Recognizing.....")
+        query = r.recognize_google(audio, language='en-US')
+        print(query)
             
-        except Exception as e:
-            print(e)
-            print("Say that again please.....")
-            return "None"
-        return query
+    except Exception as e:
+        print(e)
+        print("Say that again please.....")
+        return "None"
+    return query
     
 def sendEmail(to, content):
     server=smtplib.SMTP('smtp.gmail.com',587)
@@ -77,24 +75,22 @@ def sendEmail(to, content):
     
     server.login('username@gmail.ccom','password')
     server.sendmail('username@gmailcom',to,content)
+    
     server.close()
     
     if __name__ == "__main__":
-        
         wishme()
         
         while True:
             query = TakeCommand().lower()
             
-            #All commands will be sotore in a lowe case in quer
+            #All commands will be sotore in a lowre case in query
             #for easy recognition
             
             if 'time' in query: #tell us time when asked
-                time_()
-                
+                time_() 
             elif 'date' in query: #tell us date when asked
-                date_()
-                
+                date_()    
             elif 'wikipedia' in query:
                 speak("Searching.....")
                 query=query.replace('wikipidia', '')
@@ -119,6 +115,24 @@ def sendEmail(to, content):
                     
                 except Exception as e:
                     print(e)
-                    speak("Unable to sen Email.")
+                    speak("Unable to send Email.")
 
-    
+            elif 'search in chrome' in query:
+                speak('What should i search')
+                chromepath = 'C:\Program Files\Google\Chrome\Application\chrome.exe %s'
+                #chromepath is location of chrome's installation on computer
+        
+                search = TakeCommand().lower()
+                wb.get(chromepath).open_new_tab(search+'.com')#only open websites with '.com' at the end
+        
+            elif 'search youtube' in query:
+                speak('What should i search?')
+                search_Term = TakeCommand().lower()
+                speak("Here we go to Youtube!")
+                wb.open('https://www.youtube.com/results?search_query='+search_Term)
+            
+            elif 'search google' in query:
+                speak('What should i search')
+                search_Term = TakeCommand().lower()
+                speak('Searching...')
+                wb.open('https://www.google.com/search?q=' +search_Term)
