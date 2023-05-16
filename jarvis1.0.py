@@ -4,6 +4,11 @@ import speech_recognition as sr #pip install speechRecognition
 import wikipedia #pip install wikipedia
 import smtplib
 import webbrowser as wb
+import psutil #pip install psutil
+import pyjokes
+import os
+import pyautogui #pip install pyautogui
+import pyaudio
 
 engine = pyttsx3.init()
 
@@ -75,15 +80,27 @@ def sendEmail(to, content):
     
     server.login('username@gmail.ccom','password')
     server.sendmail('username@gmailcom',to,content)
-    
     server.close()
     
-    if __name__ == "__main__":
+def screenshot():
+    img = pyautogui.screenshot
+    img.save(r'C:\Users\edudi\Pictures\screenshot.png')
+    
+def cpu():
+        usage = str(psutil.cpu_percent())
+        speak('CPU is at'+usage)
+        battery = psutil.sensors_battery()
+        speak('Batery is at')
+        speak(battery.percent)
+        
+def jokes():
+        speak(pyjokes.get_joke())
+    
+if __name__ == "__main__":
         wishme()
         
         while True:
             query = TakeCommand().lower()
-            
             #All commands will be sotore in a lowre case in query
             #for easy recognition
             
@@ -136,3 +153,41 @@ def sendEmail(to, content):
                 search_Term = TakeCommand().lower()
                 speak('Searching...')
                 wb.open('https://www.google.com/search?q=' +search_Term)
+                
+            elif 'cpu' in query:
+                cpu()
+                
+            elif 'joke' in query:
+                jokes()
+                
+            elif 'go offline'in query:
+                speak('Going offline sir!')
+                quit()
+                
+            elif 'notepad' in query:
+                speak('Opening Note Pad...')
+                bloco_notas = r'C:\ProgramData\Microsoft\Windows\Start Menu\Programs'
+                os.startfile(bloco_notas)
+                
+            elif 'write a note'in query:
+                speak("What should i write, Sir?")
+                notes = TakeCommand()
+                file = open('notes.txt','w')
+                speak("Sir should I include Date and Time?")
+                ans = TakeCommand()
+                if 'yes' in ans or 'sure' in ans:
+                    strTime = datetime.datetime.now().strftime("%H%M%S")
+                    file.write(strTime)
+                    file.write(':-')
+                    file.write(notes)
+                    speak('Donte taking notes Sir!')
+                else:
+                    file.write(notes)
+                    
+            elif 'show note'in query:
+                speak('showing notes')
+                file = open('notes.txt','r')
+                print(file.read())
+                speak(file.read())
+                    
+                
