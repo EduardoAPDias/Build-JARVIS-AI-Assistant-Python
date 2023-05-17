@@ -11,7 +11,7 @@ import pyautogui #pip install pyautogui
 import random
 import wolframalpha #pip install wolframalpha
 import json
-import requests
+import time
 from urllib.request import urlopen
 
 engine = pyttsx3.init()
@@ -273,3 +273,27 @@ if __name__ == "__main__":
                 answer = next(res.results).text
                 print('The answer is: ' +answer)
                 speak('The answer is ' +answer)
+                
+            elif 'what is' in query or 'who is' in query:
+                #use same APi key generated earlier i.e. wolframalpha
+                client = wolframalpha.Client(wolframalpha_app_id)
+                res = client.query(query)
+            
+                try:
+                    print(next(res.results).text)
+                    speak(next(res.results).text)
+                except StopIteration:
+                    print("No results")
+                    
+            elif 'stop listening' in query:
+                speak('For how many seconds you want me to stop listening to your commands?')
+                ans = int(TakeCommand())
+                time.sleep(ans)
+                print(ans)
+                
+            elif 'log out' in query:
+                os.system("shutdown -1")
+            elif 'restart' in query:
+                os.system("shutdown /r /t 1")
+            elif 'shutdown' in query:
+                os.system("shutdown /s /t 1")
