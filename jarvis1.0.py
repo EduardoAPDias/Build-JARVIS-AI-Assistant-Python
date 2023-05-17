@@ -5,12 +5,17 @@ import wikipedia #pip install wikipedia
 import smtplib
 import webbrowser as wb
 import psutil #pip install psutil
-import pyjokes
+import pyjokes #pip install pyjokes
 import os
 import pyautogui #pip install pyautogui
-import pyaudio
+import random
+import wolframalpha #pip install wolframalpha
+import json
+import requests
+from urllib.request import urlopen
 
 engine = pyttsx3.init()
+wolframalpha_app_id = 'enter key here'
 
 #for voice in engine.getProperty('voices'): list of voices installed
     #print(voice) print voice information
@@ -180,7 +185,7 @@ if __name__ == "__main__":
                     file.write(strTime)
                     file.write(':-')
                     file.write(notes)
-                    speak('Donte taking notes Sir!')
+                    speak('Done taking notes Sir!')
                 else:
                     file.write(notes)
                     
@@ -189,5 +194,82 @@ if __name__ == "__main__":
                 file = open('notes.txt','r')
                 print(file.read())
                 speak(file.read())
-                    
                 
+            elif 'screenshot' in query: 
+                screenshot()
+                
+            elif 'play songs' in query:
+                audio = r'C:\Users\edudi\Music'
+                video = r'C:\Users\edudi\Videos'
+                speak("What should i play? Audio or video?")
+                ans = (TakeCommand().lower)
+                while (ans != 'audio' and ans != 'video'):
+                    speak("I could not understand you.PLease try again...")
+                    ans = (TakeCommand().lower())
+                    
+                if 'audio' in ans:
+                    songs_dir = audio
+                    songs = os.listdir(songs_dir)
+                    print(songs)
+                elif 'video' in ans:
+                    songs_dir = video
+                    songs = os.listdir(songs_dir)
+                    print(songs)
+            
+                speak("select a random number")
+                rand = (TakeCommand().lower())
+                while'number' not in rand and rand != 'random':
+                    speak("I could not understand you. Please Try again.")
+                    rand = (TakeCommand().lower())
+                    
+                if 'number' in rand:
+                    rand = int(rand.replace("number ",""))
+                    os.startfile(os.path.join(songs_dir,songs[rand]))
+                              
+                elif 'random' in rand:
+                    rand = random.randint(1,100)
+                    os.startfile(os.path.join(songs_dir,songs[rand]))
+                
+            elif 'remember that' in query:
+                speak("What should i remember?")
+                memory = TakeCommand()
+                speak("You asked me to remember that" +memory)
+                remember = open('memory.txt','w')
+                remember.write(memory)
+                remember.close()
+                
+            elif 'do you remember anything' in query:
+                remember = open('memory.txt','r')
+                speak('You asked me to remember that'+remember.read())
+                
+            elif 'where is' in query:
+                query = query.replace("where is", "")
+                location = query
+                speak("User asked to locate"+ location)
+                wb.open_new_tab("https://www.google.com.br/maps/place/" + location + "")
+                
+            elif 'news' in query:
+                try:
+                    jsonObj = urlopen("https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=ef34da15c82042b5a35c93eeb4a17900")
+                    data = json.load(jsonObj)
+                    i = 1
+                    
+                    speak('Here are some top headlines from Tech Crunch!')
+                    print('=====TOP HEADLINES====='+'\n')
+                    for item in data['articles']:
+                        print(str(i)+'. '+item['title']+'\n')
+                        print(item['description']+'\n')
+                        speak(item['title'])
+                        i += 1
+                        
+                except Exception as e:
+                    print(str(e))
+                    
+            elif 'calculate' in query:
+                client = wolframalpha.Client(wolframalpha_app_id)
+                index = query.lower().split().index('calculate')
+                query = query.split()[index +1:]
+                res = client.query(''.join(query))
+                answer = next(res.results).text
+                print('The answer is: ' +answer)
+                speak('The answer is ' +answer)
