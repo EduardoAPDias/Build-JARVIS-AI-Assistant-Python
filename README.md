@@ -12,7 +12,6 @@ The course is divided into several sections, each of which covers a different as
 
 * Introduction to AI assistants
 * Setting up your development environment
-* Basics and some Intermediate Concepts of Machine Learning and Artificial Intelligence
 * Natural language processing
 * Automate tasks
 * Integrating with external APIs
@@ -25,14 +24,11 @@ This course is licensed under the MIT License. See the [LICENSE](https://github.
 ## Acknowledgments
 Thanks to the creators of the open source libraries used in this course, including:
 
-* NLTK
+* WolframAlpha
 * Python
 * SpeechRecognition
 * pyttsx3
-
-## Additional Resources
-If you're interested in learning more about AI assistants or Python, here are some additional resources you may find helpful:
-* [Python Documentation](https://docs.python.org/3/ "Python Documentation")
-* [Natural Language Toolkit (NLTK) documentation](https://www.nltk.org "Natural Language Toolkit")
-* [Speech Recognition documentation](https://pypi.org/project/SpeechRecognition/ "Speech Recognition")
-* [pyttsx3 documentation](https://pyttsx3.readthedocs.io/en/latest/ "pyttsx3")
+* Wikipedia
+* psutil
+* pyjokes
+* pyautogui
