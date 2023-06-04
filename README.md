@@ -32,3 +32,7 @@ Thanks to the creators of the open source libraries used in this course, includi
 * psutil
 * pyjokes
 * pyautogui
+
+Eduardo Dias
+Email: eduardo.dias@edu.unifil.br
+
