@@ -5,7 +5,7 @@ Please note that as a student, this project is intended to be a learning exercis
 
 If you have any questions or comments about my project or the course, please don't hesitate to reach out to me. Thank you for checking out my project!
 
-Link to the course: [Learn to Build AI assistant like JARVIS using Python](https://www.udemy.com/course/jarvis-ai// "Learn to Build AI assistant like JARVIS using Python")
+Link to the course: [Learn to Build AI assistant like JARVIS using Python](https://www.udemy.com/course/jarvis-ai/ "Learn to Build AI assistant like JARVIS using Python")
 
 ## Course Contents
 The course is divided into several sections, each of which covers a different aspect of building an AI assistant like JARVIS. The sections include:
